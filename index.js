@@ -23,11 +23,13 @@ app.use(express.json());
 //parse form data  -without we'll not get the form data
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
-
-app.use("/buddybook/api/user", userRouter);
-app.use("/buddybook/api/posts", postRouter);
-app.use("/buddybook/api/comments", commentRouter);
-app.use("/buddybook/api/friends", auth,freindRouter);
+app.get("/",(req,res)=>{
+    res.render("index",{userName:req.userName,error:null});
+})
+app.use("/user", userRouter);
+app.use("/posts",auth, postRouter);
+app.use("/comments", commentRouter);
+app.use("/friends", auth,freindRouter);
 
 
 export default app;

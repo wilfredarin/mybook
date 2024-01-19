@@ -6,7 +6,7 @@ export const createComment = async (req, res, next) => {
     let postId = req.params.id;
     const resp = await createCommentRepo(comment,userId,postId);
     if (resp.success) {
-      return res.redirect("http://localhost:3000/buddybook/api/posts/");
+      return res.redirect("/posts/");
     } else {
       next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }

@@ -10,11 +10,7 @@
     const userId = req._id;
     const resp = await createPostRepo({ ...req.body, creator },userId);
     if (resp.success) {
-      res.status(201).json({
-        success: true,
-        msg: "posted successfully",
-        res: resp.res,
-      });
+      return res.redirect("/posts/");
     } else {
       next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }

@@ -9,17 +9,11 @@ import {
   import bcrypt from "bcrypt";
   import { customErrorHandler } from "../../middlewares/errorHandler.js";
   export const userRegisteration = async (req, res, next) => {
-
-    
     let { password } = req.body;
     password = await bcrypt.hash(password, 12);
     const resp = await userRegisterationRepo({ ...req.body, password });
     if (resp.success) {
-      res.status(201).json({
-        success: true,
-        msg: "user registration successful",
-        res: resp.res,
-      });
+      res.render("user-login",{userName:req.userName,error:null});
     } else {
       next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }
@@ -37,7 +31,7 @@ import {
       );
       res
         .cookie("jwtToken", token, { maxAge: 1 * 60 * 60 * 1000, httpOnly: true })
-        .json({ success: true, msg: "user login successful", token });
+        .redirect("/posts/");
     } else {
       next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }
@@ -71,7 +65,7 @@ import {
     }
   }
   export const userLogout = (req, res, next) => {
-    res.clearCookie("jwtToken").json({ success: true, msg: "logout successful" });
+    res.clearCookie("jwtToken").redirect("/");
   };
   
 
