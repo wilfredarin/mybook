@@ -8,7 +8,8 @@
               <div class="card-body">
                 <h5 class="card-title"><%= post.title %></h5>
                 <span class="card-title"
-                  style="font-size: small;">
+                  style="font-size: small;font-weight: bolder;
+                  ">
                   <%= post.creator.name %>
                 </span>
                 <br>
@@ -21,39 +22,42 @@
               <button type="submit" class="btn btn-danger mt-2">Delete</button>
               
               <div class="container p-3 my-3 border">
-                <form action="/comments/create-comment/<%= post.id %>" method="post" class="p-5">
-                  <div class="form-group">
-                    <input
-                      type="text"
-                      name="comment"
-                      class="form-control"
-                      id="comment"
-                      aria-describedby="emailHelp"
-                      placeholder="write your comment..",
-                      required
-                  />
-                    <button type="submit" class="btn btn-primary mt-2">add</button>
-                  </div>
-                </form>
                 <% if(post.comments.length>0){ %>
                   <% post.comments.forEach(comment=>{ %> 
                   <div class="row">
                       <div class="col-sm-6">
                         <div class="card">
                           <div class="card-body">
-                            <p class="card-text"><%= comment.content %></p>
                             <span style="font-size:smaller;font-style:italic;
-                              font-weight: lighter;" class="card-text">
+                              font-weight:bolder;" class="card-text">
                                 <%= comment.creator.name %>
                             </span>
+                            <p class="card-text"><%= comment.content %></p>
                           </div>
                         </div>
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                       </div>
-                      </div>
-                  </div>
+                    </div>
+                  
                   <% }) %>
                 <% } %>
+                <div class="sticky-bottom">
+                  <form action="/comments/create-comment/<%= post.id %>" method="post" class="p-5">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        name="comment"
+                        class="form-control"
+                        id="comment"
+                        aria-describedby="emailHelp"
+                        placeholder="write your comment..",
+                        required
+                    />
+                      <button type="submit" class="btn btn-primary mt-2">add</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
                             
                 
 
