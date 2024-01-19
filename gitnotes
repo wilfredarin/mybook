@@ -1,0 +1,9 @@
+Download git - for windows
+    this is will make the - git accessible from cmd line
+    https://www.atlassian.com/git/tutorials/install-git
+    $ git config --global user.name "Emma Paris"
+    $ git config --global user.email "eparis@atlassian.com"
+
+- Create a .gitignore file
+    write the file name u don't want to push
+    you can verfiy by clicking the - branched icon on vscode 

@@ -1,0 +1,71 @@
+
+
+<% if(posts.length>0){ %>
+    <% posts.forEach(post=>{ %> 
+    <div class="row">
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title"><%= post.title %></h4>
+              <span class="card-title"><%= post.creator.name %></span>
+                <span class="card-title"><%= post.time %></span>
+              <!-- <p class="card-text"> <%= post.content %></p> -->
+              <div class="container p-3 my-3 border">
+                <p class="card-text"> <%= post.content %></p>
+              </div>
+              <button type="submit" class="btn btn-danger mt-2">Delete</button>
+
+              <div class="container p-3 my-3 border">
+                <form action="/buddybook/api/comments/create-comment/<%= post.id %>" method="post" class="p-5">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      name="comment"
+                      class="form-control"
+                      id="comment"
+                      aria-describedby="emailHelp"
+                      placeholder="write your comment..",
+                      required
+                  />
+                  <button type="submit" class="btn btn-primary mt-2">add</button>
+                  </div>
+                </form>
+                <% if(post.comments.length>0){ %>
+                  <% post.comments.forEach(comment=>{ %> 
+                  <div class="row">
+                      <div class="col-sm-6">
+                        <div class="card">
+                          <div class="card-body">
+                            <p class="card-text"><%= comment.content %></p>
+                            <span style="font-size: smaller;font-style: italic;
+                              font-weight: lighter;" class="card-text">
+                                <%=comment.creator.name %>
+                            </span>
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                      </div>
+                    </div>
+                  <% }) %>
+                <% } %>
+                            
+                
+
+
+              
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% })%>
+  <% }else{%>
+    <div class="card">
+      <h5 class="card-header">No Posts Available at the Moment</h5>
+      <div class="card-body">
+        <h5 class="card-title">Stay Tuned for New Posts!</h5>
+        <p class="card-text">Currently Posts aren't available</p> 
+      </div>
+    </div>
+  <%}%>

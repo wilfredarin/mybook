@@ -1,0 +1,33 @@
+<% if(error){%>
+    <div class="alert alert-danger" role="alert">
+      <%= error %>
+    </div>
+    
+  <% }%>
+  <h1>Login</h1>
+  <form action="/buddybook/api/user/login" method="post" class="p-5">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        name="email"
+        type="email"
+        class="form-control"
+        id="email"
+        aria-describedby="emailHelp"
+        placeholder="Enter Your Registered Email"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="text"
+        name="password"
+        class="form-control"
+        id="password"
+        aria-describedby="emailHelp"
+        placeholder="Enter Your Password"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Login</button>
+  </form>
+  

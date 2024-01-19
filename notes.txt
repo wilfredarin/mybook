@@ -1,0 +1,11 @@
+1.install cookie-parser - if you have to use cookie
+2.you find a document of a collection, we can make any changes to it and at the end
+    await document.save() - this would save the changes to db
+3.you can't compare two obejctIds as the comparison checks their addresses, so
+    so rather type cast the objectIds to String() and then compare
+4. Store these at top of index files 
+    import dotenv from 'dotenv';
+    dotenv.config();
+    dont put env variable inside vairables but use them directly like process.env.Varaible_name
+    rather than const newVar = process.env.variable;
+5.
