@@ -5,10 +5,14 @@
 
   
   export const createPost = async (req, res, next) => {
-    let { title,content,imageUrl } = req.body;
+    let { title,content } = req.body;
     const creator = req._id;
     const userId = req._id;
-    const resp = await createPostRepo({ ...req.body, creator },userId);
+    let imageUrl=null;
+    if(imageUrl){
+      imageUrl = "images/"+req.file.filename;
+    }
+    const resp = await createPostRepo({ ...req.body,imageUrl, creator },userId);
     if (resp.success) {
       return res.redirect("/posts/");
     } else {
@@ -25,7 +29,6 @@ export const getPost = async (req,res,next) =>{
       }
 }
 export const getPostById = async (req,res,next) =>{
-   
     const id = req.params.id;
     const resp = await getPostByIdRepo(id);
     if (resp.success) {

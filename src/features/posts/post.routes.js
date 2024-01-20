@@ -2,10 +2,11 @@ import express from "express";
 import { createPost,deletePost,getPost,getPostById,toggleLikePost,updatePost,
 getCreatePost } from "./post.controller.js";
 import { auth } from "../../middlewares/jwtAuth.js";
+import { uploadFile } from "../../middlewares/file-upload.middleware.js";
 
 const router = express.Router();
 
-router.route("/create-post").post(auth,createPost);
+router.route("/create-post").post(auth,uploadFile.single("imageUrl"),createPost);
 router.route("/").get(getPost);
 router.route("/post/:id").get(getPostById);
 router.route("/toggle-like/:id").post(auth,toggleLikePost);

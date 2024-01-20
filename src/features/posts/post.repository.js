@@ -26,6 +26,7 @@ export const getPostRepo =  async ()=> {
                         populate:{path:"creator"}
                       });
                     // 'name' is the field you want to retrieve from the referenced User schema
+        posts.reverse();
         return { success: true, res: posts};
       } catch (error) {
         return { success: false, error: { statusCode: 400, msg: error } };

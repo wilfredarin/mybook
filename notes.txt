@@ -8,4 +8,5 @@
     dotenv.config();
     dont put env variable inside vairables but use them directly like process.env.Varaible_name
     rather than const newVar = process.env.variable;
-5.
+5.File upload functionality
+    install multer
