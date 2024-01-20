@@ -8,7 +8,7 @@
         <td><%= user.name %></td>
         <%if(userData.friendList.includes(user._id)){%>
             <td>
-                <form action="/friends/remove-friend//<%= user._id %>" method="post">
+                <form action="/friends/remove-friend/<%= user._id %>" method="post">
                     <button type="submit" class="btn btn-danger btn-sm">Disconnect</button>
                 </form>
             </td>

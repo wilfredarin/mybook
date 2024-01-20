@@ -36,7 +36,7 @@ export const acceptRequestRepo= async (userId,friendId) => {
           
           const friendRequestInd = friend.friendRequestsSent.indexOf(userId);
           friend.friendRequestsSent.splice(friendRequestInd,1);
-          friend.friendList.push(friendId);
+          friend.friendList.push(userId);
           await user.save();
           await friend.save();
           //delete the sent request item of frnd
