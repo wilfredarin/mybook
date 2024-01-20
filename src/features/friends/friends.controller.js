@@ -77,11 +77,7 @@ import { sendFriendRequestRepo,
     const friendId = req.params.id;
     const resp = await removeFriendRepo(userId,friendId);
     if (resp.success) {
-      res.status(201).json({
-        success: true,
-        msg: "friend removed successfully",
-        res: resp.res,
-      });
+      res.redirect("/friends/find-new-friend");
     } else {
       next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }

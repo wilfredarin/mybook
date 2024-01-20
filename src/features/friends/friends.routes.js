@@ -14,7 +14,7 @@ router.route("/accept-friend/:id").post(acceptRequest);
 router.route("/requests").get(getFriendRequests);
 router.route("/find-new-friend").get(getOtherUsers);
 router.route("/reject-friend/:id").post(rejectRequest);
-router.route("/remove-friend/:id").delete(removeFriend);
+router.route("/remove-friend/:id").post(removeFriend);
 
 
 export default router;

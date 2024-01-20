@@ -36,7 +36,7 @@ export const acceptRequestRepo= async (userId,friendId) => {
           
           const friendRequestInd = friend.friendRequestsSent.indexOf(userId);
           friend.friendRequestsSent.splice(friendRequestInd,1);
-          friend.friendList.push(userId);
+          friend.friendList.push(userId); 
           await user.save();
           await friend.save();
           //delete the sent request item of frnd
@@ -63,7 +63,7 @@ export const acceptRequestRepo= async (userId,friendId) => {
   export const  getFriendRequestsRepo = async(userId)=>{
       try{
         const user = await UserModel.findById(userId);
-        const friendRequests = user.friendRequests;
+        const friendRequests = user.friendRequestsReceived;
         if(friendRequests.length){
           return { success: true, res: friendRequests};
         }else{
@@ -78,12 +78,17 @@ export const acceptRequestRepo= async (userId,friendId) => {
     try{
       friendRequestId = new ObjectId(friendRequestId);
       const user = await UserModel.findById(userId);
-      const friendRequests = user.friendRequests;
-      console.log("check requests",friendRequests.includes(friendRequestId));
-      if(friendRequests.length && friendRequests.includes(friendRequestId)){
-        const requestInd = friendRequests.indexOf(friendRequestId);
-        friendRequests.splice(requestInd,1);
-        user.save();
+      const friend = await UserModel.findById(friendRequestId);
+
+      const friendRequestsReceived = user.friendRequestsReceived;
+      if(friendRequestsReceived.length && friendRequestsReceived.includes(friendRequestId)){
+        const requestInd = friendRequestsReceived.indexOf(friendRequestId);
+        user.friendRequestsReceived.splice(requestInd,1);
+        await user.save();
+
+        const friendRequestInd = friend.friendRequestsSent.indexOf(friendRequestId);
+        friend.friendRequestsSent.splice(friendRequestInd,1);
+        await friend.save();
         return { success: true, res: friendRequests};
       }else{
         return { success: false, error: { statusCode: 400, msg: "No such Request found" }}
@@ -97,11 +102,16 @@ export const acceptRequestRepo= async (userId,friendId) => {
     try{
       friendId = new ObjectId(friendId);
       const user = await UserModel.findById(userId);
+      const friend = await UserModel.findById(friendId);
       const friendList = user.friendList;
       if(friendList.length && friendList.includes(friendId)){
-        const friendInd = friendList.indexOf(friendId);
-        friendList.splice(friendInd,1);
-        user.save();
+        const userfriendInd = user.friendList.indexOf(friendId);
+        user.friendList.splice(userfriendInd,1);
+        await user.save();
+
+        const friendFriendInd = friendList.indexOf(friendId);
+        friend.friendList.splice(friendFriendInd,1);
+        await friend.save();
         return { success: true, res: user};
       }else{
         return { success: false, error: { statusCode: 400, msg: "No such friend found!" }}
