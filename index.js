@@ -15,7 +15,7 @@ import path from "path";
 import jwt from "jsonwebtoken";
 const app = express();
 
-express.static("public");
+
 app.use(express.static("public"));
 //views
 app.set("view engine","ejs");

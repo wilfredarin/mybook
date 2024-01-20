@@ -13,7 +13,9 @@
                   <%= post.creator.name %>
                 </span>
                 <br>
-                <p class="card-text"><%= post.content %></p>
+                <!-- to get the text in multiple line -->
+                <p class="card-text" style="white-space: pre-wrap;">
+                  <%= post.content %></p>
                 <p class="card-text"><small class="text-muted"><%= post.time %></small></p>
               </div>
               <% if(post.imageUrl){%>
