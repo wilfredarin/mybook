@@ -3,8 +3,10 @@ import { userSchema } from "../user/user.schema.js";
 import { customErrorHandler } from "../../middlewares/errorHandler.js";
 import { postSchema } from "./post.schema.js";
 import { ObjectId } from "mongodb";
+import { commentSchema } from "../comments/comment.schema.js";
 const UserModel = mongoose.model("User", userSchema);
 const PostModel = mongoose.model("Post",postSchema);
+const CommentModel = mongoose.model("Comment",commentSchema)
 export const createPostRepo = async (userData,userId) => {
   try {
     const newPost = new PostModel(userData);      
@@ -68,6 +70,8 @@ export const deletePostRepo = async(postId,userId)=>{
       await PostModel.deleteOne({
         _id:postId
       });
+      //delete all the comments associated with it 
+      await CommentModel.deleteMany({post:postId});
       return { success: true, res: "post deleted!"};
     }else{
       return { success: false, error: { statusCode: 400, msg: "unauthorized action!" } };

@@ -1,0 +1,32 @@
+<h1>Edit Post</h1>
+<%= post %>
+<form action="/posts/update/<%= post._id %>" method="post" class="p-5" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input
+      required
+      name="title"
+      type="text"
+      value="<%=post.title %>"
+      class="form-control"
+      id="title"
+      aria-describedby="emailHelp"
+      placeholder="Enter Post Title"
+    />
+  </div>
+  <div class="form-group">
+    <label for="companyName">Content</label>
+    <textarea 
+    required rows="10" name="content" class="form-control" id="content" aria-describedby="emailHelp"placeholder="Write ...">
+    "<%=post.content %>"
+    </textarea>
+  </div> 
+  <input 
+    type="file"
+    name="imageUrl"
+    id="imageUrl"
+    accept="images/*">
+  <button type="submit" class="btn btn-primary mt-2">Post</button>
+
+</form>
+

@@ -6,7 +6,8 @@
         <div class="col-sm-6">
           <div class="card">
               <div class="card-body">
-                <h5 class="card-title"><%= post.title %></h5>
+                <h5 class="card-title"><%= post.title %>
+                </h5>
                 <span class="card-title"
                   style="font-size: small;font-weight: bolder;
                   ">
@@ -14,23 +15,32 @@
                 </span>
                 <br>
                 <!-- to get the text in multiple line -->
-                <p class="card-text" style="white-space: pre-wrap;">
-                  <%= post.content %></p>
+                <p class="card-text" style="white-space: pre-wrap;"><%= post.content %></p>
                 <p class="card-text"><small class="text-muted"><%= post.time %></small></p>
               </div>
               <% if(post.imageUrl){%>
                 <img src="/<%= post.imageUrl %>" class="card-img-top" alt="...">
                 
               <%}%>
-              <button type="submit" class="btn btn-danger mt-2">Delete</button>
-              
+              <div>
+                
+                <% if(post.creator._id==userId){%> 
+                  <form action="/posts/delete/<%= post._id %>" style="display:inline!important;" method="post">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  </form>
+                  <form action="/posts/update/<%= post._id %>" method="get" style="display:inline!important;">
+                    <button type="submit" class="btn btn-warning btn-sm">Edit</button>
+                  </form>
+                <%}%>
+                <i id="like-icon" onclick="myFunction(this)" class="fa fa-thumbs-up"></i> 
+              </div>
               <div class="container p-3 my-3 border">
                 <% if(post.comments.length>0){ %>
                   <% post.comments.forEach(comment=>{ %> 
                   <div class="row">
                       <div class="col-sm-6">
                         <div class="card">
-                          <div class="card-body">
+                          <div class="card-body" style="background-color:rgba(196, 198, 198, 0.856);">
                             <span style="font-size:smaller;font-style:italic;
                               font-weight:bolder;" class="card-text">
                                 <%= comment.creator.name %>
@@ -38,10 +48,12 @@
                             <p class="card-text"><%= comment.content %></p>
                           </div>
                         </div>
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        <% if(comment.creator._id==userId){ %>
+                          <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                          <button type="submit" class="btn btn-warning btn-sm">Edit</button>
+                        <%}%>
                       </div>
                     </div>
-                  
                   <% }) %>
                 <% } %>
                 <div class="sticky-bottom">
@@ -80,3 +92,11 @@
       </div>
     </div>
   <%}%>
+  
+
+  <!-- <script>
+    function myFunction(x) {
+    x.classList.toggle("fa-thumbs-down");
+    window.alert("ji");
+  }
+  </script> -->

@@ -1,0 +1,8 @@
+
+.fa:hover {
+    color: darkblue;
+  }
+
+  .fa.clicked {
+    color: rgb(43, 255, 0); /* Color to change to when clicked */
+  }

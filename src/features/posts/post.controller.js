@@ -5,14 +5,17 @@
 
   
   export const createPost = async (req, res, next) => {
-    let { title,content } = req.body;
+    let content = req.body.content;
+    let title = req.body.title;
     const creator = req._id;
     const userId = req._id;
-    let imageUrl=null;
-    if(imageUrl){
+    let imageUrl = null;
+    
+    if(req.file){
       imageUrl = "images/"+req.file.filename;
     }
-    const resp = await createPostRepo({ ...req.body,imageUrl, creator },userId);
+    
+    const resp = await createPostRepo({ title,content,imageUrl, creator },userId);
     if (resp.success) {
       return res.redirect("/posts/");
     } else {
@@ -23,20 +26,21 @@
 export const getPost = async (req,res,next) =>{
     const resp = await getPostRepo();
     if (resp.success) {
-        res.render("post-feeds",{userName:req.username,posts: resp.res,error:null});
+        res.render("post-feeds",{
+          userName:req.username,
+          posts: resp.res,
+          error:null,
+          userId:req._id
+        });
       } else {
         next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
       }
 }
-export const getPostById = async (req,res,next) =>{
-    const id = req.params.id;
-    const resp = await getPostByIdRepo(id);
+export const getEditPostById = async (req,res,next) =>{
+    const postId = req.params.id;
+    const resp = await getPostByIdRepo(postId);
     if (resp.success) {
-        res.status(201).json({
-          success: true,
-          msg: "fetched Posts successfully",
-          res: resp.res,
-        });
+        res.render("post-update",{post:resp.res,error:null,userName:req.username})
       } else {
         next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
       }
@@ -58,37 +62,35 @@ export const toggleLikePost = async(req,res,next) =>{
 }
 
 export const deletePost = async(req,res,next)=>{
+  //when post deletes delte the images as well later
   const id = req.params.id;
   const userId = req._id;
   const resp = await deletePostRepo(id,userId);
   if (resp.success) {
-      res.status(201).json({
-        success: true,
-        msg: "Post deleted successfully",
-        res: resp.res,
-      });
+      res.redirect("/posts");
     } else {
       next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }
 }
 
 export const updatePost = async(req,res,next)=>{
-  const id = req.params.id;
+  const postId = req.params.id;
   const userId = req._id;
-  const {title,content,imageUrl} = req.body;
-  const details = {title:title,content:content,imageUrl:imageUrl};
-  const resp = await updatePostRepo(id,userId,details);
+  const {title,content} = req.body;
+  let imageUrl = null;
+  if(req.file){
+      imageUrl = "images/"+req.file.filename;
+  }
+  const resp = await updatePostRepo(postId,userId,{title,content,imageUrl});
   if (resp.success) {
-      res.status(201).json({
-        success: true,
-        msg: "Post updated successfully",
-        res: resp.res,
-      });
+      res.redirect("/posts");
     } else {
       next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }
 }
 
 export const getCreatePost = (req,res,next)=>{
-  res.render("post-add",{userName:req.username,error:null});
+  res.render("post-add",{userName:req.username,
+    error:null,
+    userId:req._id});
 }

@@ -13,7 +13,6 @@ export const postSchema = new mongoose.Schema({
         type:Date,default:Date.now(),
         required:true
     },
-    
     comments:[
         {
             type:mongoose.Schema.Types.ObjectId,
@@ -25,4 +24,7 @@ export const postSchema = new mongoose.Schema({
         ref:"User"
     }]
 
+}).pre("deleteOne",async function(next){
+    console.log("deleted! post");
+    next();
 });

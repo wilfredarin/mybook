@@ -11,7 +11,7 @@ export const createCommentRepo = async(comment,userId,postId)=>{
         if(!post){
             return { success: false, error: { statusCode: 400, msg: "Invalid post" } };
         }
-        const newComment = new CommentModel({content:comment,creator:userId});
+        const newComment = new CommentModel({content:comment,creator:userId,post:postId});
         await newComment.save();
         post.comments.push(newComment);
         post.save();
