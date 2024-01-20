@@ -20,14 +20,31 @@ export const createPostRepo = async (userData,userId) => {
   }
 };
 
-export const getPostRepo =  async ()=> {
+export const getPostRepo =  async (userId)=> {
     try {
-        const posts = await PostModel.find()
+        const user = await UserModel.findById(userId);
+        const rawPosts = await PostModel.find()
                       .populate('creator').populate({
                         path:"comments",
                         populate:{path:"creator"}
                       });
                     // 'name' is the field you want to retrieve from the referenced User schema
+        let posts = [];
+
+        rawPosts.forEach(post=>{
+          if(post.privacy=="public"){
+            posts.push(post);
+          }else if(post.privacy=="friends-only"){
+            if(user.friendList.includes(post.creator._id)||userId==post.creator._id ){
+              posts.push(post);
+            }
+          }else if(post.privacy=="private"){
+            if(userId==post.creator._id){
+              posts.push(post);
+            }
+          }
+        });
+
         posts.reverse();
         return { success: true, res: posts};
       } catch (error) {
@@ -97,6 +114,7 @@ export const updatePostRepo  = async(postId,userId,data)=>{
       if(data.imageUrl){
         post.imageUrl =  data.imageUrl;
       }
+      post.privacy = data.privacy;
       await post.save();
       return { success: true, res: post};
     }else{

@@ -22,7 +22,13 @@ export const postSchema = new mongoose.Schema({
     likes:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
-    }]
+    }],
+    privacy:{
+        type:String,
+        required:true,
+        enum:["private","public","friends-only"]
+    }
+    
 
 }).pre("deleteOne",async function(next){
     console.log("deleted! post");

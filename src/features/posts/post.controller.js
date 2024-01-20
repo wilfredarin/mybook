@@ -5,8 +5,10 @@
 
   
   export const createPost = async (req, res, next) => {
+    console.log(req.body,"sss")
     let content = req.body.content;
     let title = req.body.title;
+    let privacy = req.body.privacy;
     const creator = req._id;
     const userId = req._id;
     let imageUrl = null;
@@ -15,7 +17,7 @@
       imageUrl = "images/"+req.file.filename;
     }
     
-    const resp = await createPostRepo({ title,content,imageUrl, creator },userId);
+    const resp = await createPostRepo({ title,content,imageUrl,privacy,creator },userId);
     if (resp.success) {
       return res.redirect("/posts/");
     } else {
@@ -24,7 +26,8 @@
   };
 
 export const getPost = async (req,res,next) =>{
-    const resp = await getPostRepo();
+    const userId = req._id;
+    const resp = await getPostRepo(userId);
     if (resp.success) {
         res.render("post-feeds",{
           userName:req.username,
@@ -76,12 +79,13 @@ export const deletePost = async(req,res,next)=>{
 export const updatePost = async(req,res,next)=>{
   const postId = req.params.id;
   const userId = req._id;
-  const {title,content} = req.body;
+  
+  const {title,content,privacy} = req.body;
   let imageUrl = null;
   if(req.file){
       imageUrl = "images/"+req.file.filename;
   }
-  const resp = await updatePostRepo(postId,userId,{title,content,imageUrl});
+  const resp = await updatePostRepo(postId,userId,{title,content,imageUrl,privacy});
   if (resp.success) {
       res.redirect("/posts");
     } else {

@@ -10,9 +10,12 @@ export const sendFriendRequestRepo = async (userId,friendId) => {
     userId = new ObjectId(userId);
     friendId = new ObjectId(friendId);
     const friend = await UserModel.findById(friendId);
-    if(!friend.friendList.includes(userId) && !friend.friendRequests.includes(userId)){
-        friend.friendRequests.push(userId);
-        await friend.save()
+    const user = await UserModel.findById(userId);
+    if(!friend.friendList.includes(userId) && !friend.friendRequestsReceived.includes(userId)){
+        friend.friendRequestsReceived.push(userId);
+        user.friendRequestsSent.push(friendId);
+        await user.save();
+        await friend.save();
     }
     return { success: true, res: "Request Sent"};
   } catch (error) {
@@ -25,11 +28,18 @@ export const acceptRequestRepo= async (userId,friendId) => {
       userId = new ObjectId(userId);
       friendId = new ObjectId(friendId);
       const user = await UserModel.findById(userId);
-      if(user.friendRequests.includes(friendId)){
-          const requestInd = user.friendRequests.indexOf(friendId);
-          user.friendRequests.splice(requestInd,1);
+      const friend = await UserModel.findById(friendId);
+      if(user.friendRequestsReceived.includes(friendId)){
+          const requestInd = user.friendRequestsReceived.indexOf(friendId);
+          user.friendRequestsReceived.splice(requestInd,1);
           user.friendList.push(friendId);
-          await user.save()
+          
+          const friendRequestInd = friend.friendRequestsSent.indexOf(userId);
+          friend.friendRequestsSent.splice(friendRequestInd,1);
+          friend.friendList.push(friendId);
+          await user.save();
+          await friend.save();
+          //delete the sent request item of frnd
           return { success: true, res: user};
       }
       return { success: false, error: { statusCode: 400, msg: "Friend Request not found" }};
@@ -41,10 +51,10 @@ export const acceptRequestRepo= async (userId,friendId) => {
   export const getOtherUsersRepo = async (userId)=>{
     try{
       const user = await UserModel.findById(userId);
-      const userList = await UserModel.find();
+      let userList = await UserModel.find();
       const userInd = userList.indexOf(user);
-      userList.splice(userInd,1);
-      return { success: true, res: userList};
+      //if user in user's frnd list don't show here! - implement later
+      return { success: true, res: {userList:userList,user:user}};
     }catch(error){
       return { success: false, error: { statusCode: 400, msg: error }}
     }

@@ -11,11 +11,7 @@ import { sendFriendRequestRepo,
     }
     const resp = await sendFriendRequestRepo(userId,friendId);
     if (resp.success) {
-      res.status(201).json({
-        success: true,
-        msg: "request sent successfully",
-        res: resp.res,
-      });
+      res.redirect("/friends/find-new-friend");
     } else {
       next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }
@@ -26,11 +22,7 @@ import { sendFriendRequestRepo,
     const userId = req._id;
     const resp = await acceptRequestRepo(userId,friendId);
       if (resp.success) {
-        res.status(201).json({
-          success: true,
-          msg: "request accepted successfully",
-          res: resp.res,
-        });
+        res.redirect("/friends/find-new-friend");
       } else {
         next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
       }
@@ -40,10 +32,11 @@ import { sendFriendRequestRepo,
     const userId = req._id;
     const resp = await getOtherUsersRepo(userId);
     if (resp.success) {
-      res.status(201).json({
-        success: true,
-        msg: "List of other Users fetched successfully.",
-        res: resp.res,
+      res.render("friends/user-list",{
+        userName:req.username,
+        error:null,
+        otherUsers:resp.res.userList,
+        userData:resp.res.user
       });
     } else {
       next(new customErrorHandler(resp.error.statusCode, resp.error.msg));

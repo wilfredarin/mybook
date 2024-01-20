@@ -1,0 +1,35 @@
+<div>
+    <h1>Add Buddy</h1>
+</div>
+<table class="table table-striped table-dark">
+    <% otherUsers.forEach(user=>{%>
+    <tbody>
+      <tr>
+        <td><%= user.name %></td>
+        <%if(userData.friendList.includes(user._id)){%>
+            <td>
+                <form action="/friends/remove-friend//<%= user._id %>" method="post">
+                    <button type="submit" class="btn btn-danger btn-sm">Disconnect</button>
+                </form>
+            </td>
+        <%}else if(userData.friendRequestsSent.includes(user._id)){%>
+            <td>
+                    <button type="submit" class="btn btn-success btn-sm">Sent</button>
+            </td>
+        <%}else if(userData.friendRequestsReceived.includes(user._id)){%>
+            <td>
+                <form action="/friends/accept-friend/<%= user._id %>" method="post">
+                    <button type="submit" class="btn btn-warning btn-sm">Accept</button>
+                </form>
+            </td>
+        <%}else{%>
+            <td>
+                <form action="/friends/friend-request/<%= user._id %>" method="post">
+                    <button type="submit" class="btn btn-primary btn-sm">Send Request</button>
+                </form>
+            </td>
+        <%}%>
+    </tr>
+    </tbody>
+    <%})%>
+  </table>
