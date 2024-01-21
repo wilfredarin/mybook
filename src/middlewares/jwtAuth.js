@@ -5,7 +5,7 @@ export const auth = async (req, res, next) => {
   const { jwtToken } = req.cookies;
   jwt.verify(jwtToken, process.env.JWT_SECRET, (err, data) => {
     if (err) {
-      res.status(400).send("unauthorized! login to continue!");
+      res.render("index",{userName:req.username,error:"Unauthorized Access! Login to continue"});
     } else {
       req._id = data._id;
       req.username = data.user.name;

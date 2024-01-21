@@ -83,6 +83,12 @@
       </div>
     </nav>
     <div class="container my-5">
+      <% if(error){%>
+        <div class="alert alert-danger" role="alert">
+          <%= error %>
+        </div>
+        
+      <% }%>
       <%-body%>
     </div>
 

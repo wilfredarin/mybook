@@ -21,7 +21,8 @@
     if (resp.success) {
       return res.redirect("/posts/");
     } else {
-      next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
+      res.render("post-feeds",{error:resp.error.msg,userName:req.username});
+      // next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }
   };
 
@@ -36,7 +37,8 @@ export const getPost = async (req,res,next) =>{
           userId:req._id
         });
       } else {
-        next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
+        res.render("post-feeds",{error:resp.error.msg,userName:req.username});
+        // next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
       }
 }
 export const getEditPostById = async (req,res,next) =>{
@@ -45,7 +47,8 @@ export const getEditPostById = async (req,res,next) =>{
     if (resp.success) {
         res.render("post-update",{post:resp.res,error:null,userName:req.username})
       } else {
-        next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
+        res.render("post-feeds",{error:resp.error.msg,userName:req.username});
+        // next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
       }
 }
 
@@ -60,7 +63,8 @@ export const toggleLikePost = async(req,res,next) =>{
           res: resp.res,
         });
       } else {
-        next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
+        res.render("post-feeds",{error:resp.error.msg,userName:req.username});
+        // next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
       }
 }
 
@@ -72,7 +76,8 @@ export const deletePost = async(req,res,next)=>{
   if (resp.success) {
       res.redirect("/posts");
     } else {
-      next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
+      res.render("post-feeds",{error:resp.error.msg,userName:req.username});
+      // next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }
 }
 
@@ -89,7 +94,8 @@ export const updatePost = async(req,res,next)=>{
   if (resp.success) {
       res.redirect("/posts");
     } else {
-      next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
+      res.render("post-feeds",{error:resp.error.msg,userName:req.username});
+      // next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }
 }
 

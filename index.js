@@ -13,6 +13,7 @@ import { auth } from './src/middlewares/jwtAuth.js';
 import ejsLayouts from "express-ejs-layouts"
 import path from "path";
 import jwt from "jsonwebtoken";
+import { customErrorHandler } from './src/middlewares/errorHandler.js';
 const app = express();
 
 
@@ -46,4 +47,16 @@ app.use("/comments", commentRouter);
 app.use("/friends", auth,freindRouter);
 
 
+
+
+//application level error handeling at the end !
+app.use((err,req,res,next)=>{
+  console.log(err);
+  //just for the purpose of learning used if and else - otherwise it is redundant
+  if(err instanceof customErrorHandler){
+    res.render("index",{error:err,userName:req.username});
+  }else{
+    res.render("index",{error:err,userName:req.username});
+}
+});
 export default app;

@@ -8,6 +8,7 @@ import {
   import jwt from "jsonwebtoken";
   import bcrypt from "bcrypt";
   import { customErrorHandler } from "../../middlewares/errorHandler.js";
+
   export const userRegisteration = async (req, res, next) => {
     let { password } = req.body;
     password = await bcrypt.hash(password, 12);
@@ -15,7 +16,8 @@ import {
     if (resp.success) {
       res.render("user-login",{userName:req.userName,error:null});
     } else {
-      next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
+      res.render("user-register",{error:resp.error.msg,userName:req.username});
+      // next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }
   };
   
@@ -33,7 +35,8 @@ import {
         .cookie("jwtToken", token, { maxAge: 1 * 60 * 60 * 1000, httpOnly: true })
         .redirect("/posts/");
     } else {
-      next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
+      res.render("user-login",{error:resp.error.msg,userName:req.username});
+      // next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
     }
   };
 
