@@ -17,7 +17,7 @@ import { customErrorHandler } from './src/middlewares/errorHandler.js';
 const app = express();
 
 
-app.use(express.static("public"));
+
 //views
 app.set("view engine","ejs");
 app.set("views",path.join(path.resolve(),"src","views"));
@@ -30,6 +30,7 @@ app.use(cookieParser());
 
 app.get("/",(req,res)=>{
     //check if loged in 
+    console.log("yahan aaaya tha")
     const { jwtToken } = req.cookies;
     jwt.verify(jwtToken, process.env.JWT_SECRET, (err, data) => {
     if (err) {

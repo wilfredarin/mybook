@@ -2,10 +2,10 @@ import express from "express";
 import { userLogin,userLogout,userRegisteration,updateUserPassword,updateProfile,
     getUserRegistration,getUserLogin,getUserPosts } from "./user.controller.js";
 import { auth } from "../../middlewares/jwtAuth.js";
-
+import { uploadFile } from "../../middlewares/file-upload.middleware.js";
 const router = express.Router();
 
-router.route("/register").post(userRegisteration);
+router.route("/register").post(uploadFile.single("image"),userRegisteration);
 router.route("/login").post(userLogin);
 router.route("/logout").get(userLogout);
 router.route("/update/password").post(auth, updateUserPassword);

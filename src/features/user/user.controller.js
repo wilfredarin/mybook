@@ -8,11 +8,20 @@ import {
   import jwt from "jsonwebtoken";
   import bcrypt from "bcrypt";
   import { customErrorHandler } from "../../middlewares/errorHandler.js";
+ import path from "path";
+import fs from "fs";
 
   export const userRegisteration = async (req, res, next) => {
     let { password } = req.body;
     password = await bcrypt.hash(password, 12);
-    const resp = await userRegisterationRepo({ ...req.body, password });
+    let photo= null;
+    if(req.file){
+      photo=fs.readFileSync(path.resolve("public","images",req.file.filename))
+    }
+    
+    
+    //make it mandagtory for imageuplaod - otherwise code will break
+    const resp = await userRegisterationRepo({ ...req.body, photo,password });
     if (resp.success) {
       res.render("user-login",{userName:req.userName,error:null});
     } else {
@@ -25,7 +34,8 @@ import {
     const resp = await userLoginRepo(req.body);
     if (resp.success) {
       const token = jwt.sign(
-        { _id: resp.res._id, user: resp.res },
+        //after image buffer - changed it to not pass entire user (earlier it was user:resp.res)
+        { _id: resp.res._id, username: resp.res.name },
         process.env.JWT_SECRET,
         {
           expiresIn: "1h",
@@ -33,6 +43,7 @@ import {
       );
       res
         .cookie("jwtToken", token, { maxAge: 1 * 60 * 60 * 1000, httpOnly: true })
+        .cookie("wilfredarin", "coolestCoder", { maxAge: 1 * 60 * 60 * 1000, httpOnly: true })
         .redirect("/posts/");
     } else {
       res.render("user-login",{error:resp.error.msg,userName:req.username});

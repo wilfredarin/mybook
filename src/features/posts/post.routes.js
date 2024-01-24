@@ -10,7 +10,7 @@ router.route("/create-post").post(uploadFile.single("imageUrl"),createPost);
 router.route("/").get(getPost);
 router.route("/update/:id").get(getEditPostById);
 router.route("/toggle-like/:id").post(toggleLikePost);
-//if using multer it's must other wise req.body will be empty!
+// if using multer it's must other wise req.body will be empty!
 router.route("/update/:id").post(uploadFile.single("imageUrl"),updatePost);
 router.route("/delete/:id").post(deletePost);
 

@@ -1,7 +1,8 @@
   import { createPostRepo,getPostRepo,getPostByIdRepo,
     toggleLikePostRepo,deletePostRepo,updatePostRepo } from "./post.repository.js";
   import { customErrorHandler } from "../../middlewares/errorHandler.js";
-
+import fs from "fs";
+import path from "path";
 
   
   export const createPost = async (req, res, next) => {
@@ -11,13 +12,17 @@
     let privacy = req.body.privacy;
     const creator = req._id;
     const userId = req._id;
-    let imageUrl = null;
-    
+    let photo= null;
     if(req.file){
-      imageUrl = "images/"+req.file.filename;
+      photo=fs.readFileSync(path.resolve("public","images",req.file.filename))
     }
+    // let imageUrl = null;
     
-    const resp = await createPostRepo({ title,content,imageUrl,privacy,creator },userId);
+    // if(req.file){
+    //   imageUrl = "images/"+req.file.filename;
+    // }
+    
+    const resp = await createPostRepo({ title,content,photo,privacy,creator },userId);
     if (resp.success) {
       return res.redirect("/posts/");
     } else {

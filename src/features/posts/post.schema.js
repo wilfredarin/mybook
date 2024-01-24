@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 export const postSchema = new mongoose.Schema({
     title:{type:String,requried:true},
     content:{type:String,required:true},
-    imageUrl:{type:String},
+    photo:{
+        type:Buffer
+    },
     creator:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,

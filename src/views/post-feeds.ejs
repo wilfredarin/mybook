@@ -8,18 +8,32 @@
               <div class="card-body">
                 <h5 class="card-title"><%= post.title %>
                 </h5>
+                <% if (post.creator.photo) {%>
+                  <img src="data:image/String;base64,
+                    <%=post.creator.photo.toString('base64')%>"
+                    width="30" height="30" 
+                    class="d-inline-block align-top" alt="">
+                  <%}else{%>
+                    <img src=src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gamespot.com%2Farticles%2Fgroundbreaking-new-avatar-mobile-game-coming-has-h%2F1100-6441363%2F&psig=AOvVaw1N9G6MGljCq1Q6PwWUM6lt&ust=1706170330935000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCPCDnvnJ9YMDFQAAAAAdAAAAABAD" 
+                      width="30" height="30" 
+                      class="d-inline-block align-top" alt="">
+                    <%}%>
                 <span class="card-title"
                   style="font-size: small;font-weight: bolder;
                   ">
                   <%= post.creator.name %>
                 </span>
+                
                 <br>
                 <!-- to get the text in multiple line -->
                 <p class="card-text" style="white-space: pre-wrap;"><%= post.content %></p>
                 <p class="card-text"><small class="text-muted"><%= post.time %></small></p>
               </div>
-              <% if(post.imageUrl){%>
-                <img src="/<%= post.imageUrl %>" class="card-img-top" alt="...">
+              <% if(post.photo){%>
+                <img src="data:image/String;base64,
+                    <%=post.photo.toString('base64')%>"
+                    class="card-img-top" alt="...">
+                
                 
               <%}%>
               <div>

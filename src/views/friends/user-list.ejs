@@ -5,7 +5,16 @@
     <% otherUsers.forEach(user=>{%>
     <tbody>
       <tr>
+        <td>  
+            <% if (user.photo) {%>
+                <img src="data:image/String;base64,
+                <%=user.photo.toString('base64')%>"
+                width="30" height="30" 
+                class="d-inline-block align-top" alt="">
+            <%}%>
+        </td>
         <td><%= user.name %></td>
+        
         <%if(userData.friendList.includes(user._id)){%>
             <td>
                 <form action="/friends/remove-friend/<%= user._id %>" method="post">
