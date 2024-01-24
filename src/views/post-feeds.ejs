@@ -9,8 +9,8 @@
                 <h5 class="card-title"><%= post.title %>
                 </h5>
                 <% if (post.creator.photo) {%>
-                  <img src="data:image/String;base64,
-                    <%=post.creator.photo.toString('base64')%>"
+                  <img src="data:<%= post.photo.contentType%>;base64,
+                    <%=post.creator.photo.data.toString('base64')%>"
                     width="30" height="30" 
                     class="d-inline-block align-top" alt="">
                   <%}else{%>
@@ -30,11 +30,9 @@
                 <p class="card-text"><small class="text-muted"><%= post.time %></small></p>
               </div>
               <% if(post.photo){%>
-                <img src="data:image/String;base64,
-                    <%=post.photo.toString('base64')%>"
+                <img src="data:<%= post.photo.contentType%>;base64,
+                    <%=post.photo.data.toString('base64')%>"
                     class="card-img-top" alt="...">
-                
-                
               <%}%>
               <div>
                 

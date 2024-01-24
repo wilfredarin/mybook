@@ -7,8 +7,8 @@
       <tr>
         <td>  
             <% if (user.photo) {%>
-                <img src="data:image/String;base64,
-                <%=user.photo.toString('base64')%>"
+                <img src="data:<%= user.photo.contentType%>;base64,
+                <%=user.photo.data.toString('base64')%>"
                 width="30" height="30" 
                 class="d-inline-block align-top" alt="">
             <%}%>

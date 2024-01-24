@@ -37,7 +37,8 @@ export const userSchema = new mongoose.Schema({
     ref:"Post"
   }],
   photo:{
-    type:Buffer
-  }
+    data: Buffer,
+    contentType: String,
+},
   
 });

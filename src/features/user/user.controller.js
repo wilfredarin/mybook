@@ -16,8 +16,14 @@ import fs from "fs";
     password = await bcrypt.hash(password, 12);
     let photo= null;
     if(req.file){
-      photo=fs.readFileSync(path.resolve("public","images",req.file.filename))
+      photo = {
+        data:req.file.buffer,
+        contentType: req.file.mimetype
+      }
     }
+    // if(req.file){
+    //   photo=fs.readFileSync(path.resolve("public","images",req.file.filename))
+    // }
     
     
     //make it mandagtory for imageuplaod - otherwise code will break

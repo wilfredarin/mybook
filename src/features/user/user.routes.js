@@ -4,8 +4,11 @@ import { userLogin,userLogout,userRegisteration,updateUserPassword,updateProfile
 import { auth } from "../../middlewares/jwtAuth.js";
 import { uploadFile } from "../../middlewares/file-upload.middleware.js";
 const router = express.Router();
+import multer from "multer";
+const upload = multer({ storage: multer.memoryStorage() });
 
-router.route("/register").post(uploadFile.single("image"),userRegisteration);
+// router.route("/register").post(uploadFile.single("image"),userRegisteration);
+router.route("/register").post(upload.single("image"),userRegisteration);
 router.route("/login").post(userLogin);
 router.route("/logout").get(userLogout);
 router.route("/update/password").post(auth, updateUserPassword);

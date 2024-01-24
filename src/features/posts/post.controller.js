@@ -13,8 +13,13 @@ import path from "path";
     const creator = req._id;
     const userId = req._id;
     let photo= null;
+    
     if(req.file){
-      photo=fs.readFileSync(path.resolve("public","images",req.file.filename))
+      photo = {
+        data:req.file.buffer,
+        contentType: req.file.mimetype
+      }
+      // photo=fs.readFileSync(path.resolve("public","images",req.file.filename))
     }
     // let imageUrl = null;
     

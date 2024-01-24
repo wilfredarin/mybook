@@ -4,7 +4,8 @@ export const postSchema = new mongoose.Schema({
     title:{type:String,requried:true},
     content:{type:String,required:true},
     photo:{
-        type:Buffer
+        data: Buffer,
+        contentType: String,
     },
     creator:{
         type:mongoose.Schema.Types.ObjectId,
