@@ -20,6 +20,11 @@ import fs from "fs";
         data:req.file.buffer,
         contentType: req.file.mimetype
       }
+    }else{
+      photo={
+        data: fs.readFileSync(path.resolve('public', "images", "avatar.jpg")),
+        contentType:"image/jpeg"
+      }
     }
     // if(req.file){
     //   photo=fs.readFileSync(path.resolve("public","images",req.file.filename))

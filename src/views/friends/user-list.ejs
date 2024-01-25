@@ -6,7 +6,8 @@
     <tbody>
       <tr>
         <td>  
-            <% if (user.photo) {%>
+            <% if(user.photo.data) {%>
+                
                 <img src="data:<%= user.photo.contentType%>;base64,
                 <%=user.photo.data.toString('base64')%>"
                 width="30" height="30" 
@@ -23,7 +24,7 @@
             </td>
         <%}else if(userData.friendRequestsSent.includes(user._id)){%>
             <td>
-                    <button type="submit" class="btn btn-success btn-sm">Sent</button>
+                    <button type="submit" class="btn btn-success btn-sm">Request Sent</button>
             </td>
         <%}else if(userData.friendRequestsReceived.includes(user._id)){%>
             <td>

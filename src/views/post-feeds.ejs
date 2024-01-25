@@ -29,10 +29,11 @@
                 <p class="card-text" style="white-space: pre-wrap;"><%= post.content %></p>
                 <p class="card-text"><small class="text-muted"><%= post.time %></small></p>
               </div>
-              <% if(post.photo){%>
+              <% if(post.photo.data){%>
                 <img src="data:<%= post.photo.contentType%>;base64,
-                    <%=post.photo.data.toString('base64')%>"
-                    class="card-img-top" alt="...">
+                <%=post.photo.data.toString('base64')%>"
+                class="card-img-top" alt="...">
+               
               <%}%>
               <div>
                 
