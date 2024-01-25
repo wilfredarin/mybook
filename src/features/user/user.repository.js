@@ -70,9 +70,9 @@ export const updateProfileRepo = async(_id,data)=>{
     };
   }
 }
-export const updateUserPasswordRepo = async (_id, newpassword, next) => {
+export const updateUserPasswordRepo = async (email, newpassword, next) => {
   try {
-    const user = await UserModel.findOne({ _id });
+    const user = await UserModel.findOne({ email });
     if (!user) {
       return {
         success: false,
@@ -82,7 +82,7 @@ export const updateUserPasswordRepo = async (_id, newpassword, next) => {
       const newHashedPassword = await hashPassword(newpassword, next);
       user.password = newHashedPassword;
       let updatedUser = await user.save();
-      return { success: true, res: updatedUser };
+      return { success: true, msg: "Password updated successfully!" };
     }
   } catch (error) {
     return {

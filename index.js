@@ -8,6 +8,7 @@ import userRouter from "./src/features/user/user.routes.js";
 import commentRouter from "./src/features/comments/comment.routes.js";
 import postRouter from "./src/features/posts/post.routes.js";
 import freindRouter from "./src/features/friends/friends.routes.js";
+import otpRouter from "./src/features/otp/otp.routes.js"
 
 import { auth } from './src/middlewares/jwtAuth.js';
 import ejsLayouts from "express-ejs-layouts"
@@ -45,6 +46,7 @@ app.get("/",(req,res)=>{
 app.use("/user", userRouter);
 app.use("/posts",auth, postRouter);
 app.use("/comments", commentRouter);
+app.use("/otp",otpRouter);
 app.use("/friends", auth,freindRouter);
 
 

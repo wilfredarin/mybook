@@ -11,7 +11,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.route("/register").post(upload.single("image"),userRegisteration);
 router.route("/login").post(userLogin);
 router.route("/logout").get(userLogout);
-router.route("/update/password").post(auth, updateUserPassword);
+// router.route("/update/password").post(auth, updateUserPassword);
 router.route("/update/profile").post(auth,updateProfile);
 
 

@@ -58,18 +58,9 @@ import fs from "fs";
   };
 
 
-  export const updateUserPassword = async (req, res, next) => {
-    const { newPassword } = req.body;
-    const resp = await updateUserPasswordRepo(req._id, newPassword, next);
-    if (resp.success) {
-      res.status(201).json({
-        success: true,
-        msg: "password updated successfully",
-        res: resp.res,
-      });
-    } else {
-      next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
-    }
+  export const updateUserPassword = async (email,newPassword,next) => {
+    const resp = await updateUserPasswordRepo(email, newPassword,next);
+    return resp;
   };
   
   export const updateProfile = async (req,res,next) =>{
