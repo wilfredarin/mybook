@@ -31,14 +31,15 @@ app.use(cookieParser());
 
 app.get("/",(req,res)=>{
     //check if loged in 
-  
     const { jwtToken } = req.cookies;
     jwt.verify(jwtToken, process.env.JWT_SECRET, (err, data) => {
+      
     if (err) {
-      return res.render("index",{userName:null,error:null});
+      return res.render("index",{userName:null,error:err});
     } else {
+      
       req._id = data._id;
-      req.username = data.user.name;
+      req.username = data.username;
       return res.render("index",{userName:req.username,error:null});
     }
   });
