@@ -35,18 +35,18 @@ export const verifyOTP = async(req,res,next)=>{
   const email = req.params.email;
   const resp = await verifyOTPRepo(email,otp);
   if(!resp.success){
-    return res.render("user-otp-verification",{email:email,userName:null,error:resp.message});
+    return res.render("user-otp-verification",{email:email,userName:req.username,error:resp.message});
   }
   const result = await updateUserPassword(email,newPassword,next);
   if(result.success){
-    return res.render("user-login",{userName:null,error:result.msg});
+    return res.render("user-login",{userName:req.username,error:result.msg});
   }else{
-    return res.render("user-otp-verification",{email:email,userName:null,error:result.msg});
+    return res.render("user-otp-verification",{email:email,userName:req.username,error:result.msg});
   }
 }
 
 export const  getOTPView= (req,res)=>{
-  res.render("user-otp-verification",{email:null,userName:null,error:null});
+  res.render("user-otp-verification",{email:null,userName:req.username,error:null});
 }
 export const sendOTP = async (req, res) => {
     const { email } = req.body;
@@ -55,7 +55,7 @@ export const sendOTP = async (req, res) => {
     const checkUserPresent = await UserModel.findOne({ email });
     // If user found with provided email
     if (!checkUserPresent) {
-      return res.render("user-otp-verification",{email:null,userName:null,error: 'User not registered'});
+      return res.render("user-otp-verification",{email:null,userName:req.username,error: 'User not registered'});
     }
 
     let otp = otpGenerator.generate(6, {
