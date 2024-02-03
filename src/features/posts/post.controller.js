@@ -6,14 +6,13 @@ import path from "path";
 
   
   export const createPost = async (req, res, next) => {
-    console.log(req.body,"sss")
+    
     let content = req.body.content;
     let title = req.body.title;
     let privacy = req.body.privacy;
     const creator = req._id;
     const userId = req._id;
     let photo = null;
-    
     if(req.file){
       photo = {
         data:req.file.buffer,
@@ -26,7 +25,7 @@ import path from "path";
     // if(req.file){
     //   imageUrl = "images/"+req.file.filename;
     // }
-    // console.log("photo",photo)
+  
     const resp = await createPostRepo({ title,content,photo,privacy,creator },userId);
     if (resp.success) {
       return res.redirect("/posts/");
@@ -67,13 +66,9 @@ export const toggleLikePost = async(req,res,next) =>{
     const userId = req._id;
     const resp = await toggleLikePostRepo(id,userId);
     if (resp.success) {
-        res.status(201).json({
-          success: true,
-          msg: "fetched Posts successfully",
-          res: resp.res,
-        });
+      res.redirect("/posts/")
       } else {
-        res.render("post-feeds",{error:resp.error.msg,userName:req.username});
+        res.render("index",{error:resp.error.msg,userName:req.username});
         // next(new customErrorHandler(resp.error.statusCode, resp.error.msg));
       }
 }

@@ -66,13 +66,16 @@ export const toggleLikePostRepo = async(id,userId)=>{
       const post = await PostModel.findById(id);
       const _id = new ObjectId(userId);
       const isLiked = post.likes.includes(userId);
+      let msg="";
       if(isLiked){
         post.likes.splice(post.likes.indexOf(_id),1);
+        msg = "unliked"
       }else{
         post.likes.push(_id);
+        msg="liked"
       }
       await post.save();
-      return { success: true, res: post};
+      return { success: true, res: msg};
     } catch (error) {
       return { success: false, error: { statusCode: 400, msg: error } };
     }
