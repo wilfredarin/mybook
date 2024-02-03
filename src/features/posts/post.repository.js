@@ -111,8 +111,8 @@ export const updatePostRepo  = async(postId,userId,data)=>{
       if(data.content){
         post.content = data.content;
       }
-      if(data.imageUrl){
-        post.imageUrl =  data.imageUrl;
+      if(data.photo){
+        post.photo =  data.photo;
       }
       post.privacy = data.privacy;
       await post.save();

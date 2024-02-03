@@ -12,7 +12,7 @@ import path from "path";
     let privacy = req.body.privacy;
     const creator = req._id;
     const userId = req._id;
-    let photo= null;
+    let photo = null;
     
     if(req.file){
       photo = {
@@ -26,7 +26,7 @@ import path from "path";
     // if(req.file){
     //   imageUrl = "images/"+req.file.filename;
     // }
-    
+    // console.log("photo",photo)
     const resp = await createPostRepo({ title,content,photo,privacy,creator },userId);
     if (resp.success) {
       return res.redirect("/posts/");
@@ -96,11 +96,15 @@ export const updatePost = async(req,res,next)=>{
   const userId = req._id;
   
   const {title,content,privacy} = req.body;
-  let imageUrl = null;
+  let photo=null;
   if(req.file){
-      imageUrl = "images/"+req.file.filename;
+    photo = {
+      data:req.file.buffer,
+      contentType: req.file.mimetype
+    }
+      
   }
-  const resp = await updatePostRepo(postId,userId,{title,content,imageUrl,privacy});
+  const resp = await updatePostRepo(postId,userId,{title,content,photo,privacy});
   if (resp.success) {
       res.redirect("/posts");
     } else {
